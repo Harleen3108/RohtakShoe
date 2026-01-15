@@ -6,11 +6,13 @@ import {
   getProducts,
   getProduct,
   updateProduct,
-  deleteProduct
+  deleteProduct,
+  getDashboardStats
 } from "../controllers/productController.js";
 
 const router = express.Router();
 
+router.get("/dashboard/stats", protect, getDashboardStats);
 router.post("/", protect, upload.array('images', 4), addProduct);
 router.get("/", protect, getProducts);
 router.get("/:id", protect, getProduct);

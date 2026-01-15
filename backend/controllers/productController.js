@@ -138,3 +138,32 @@ export const deleteProduct = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
+
+// GET DASHBOARD STATS
+export const getDashboardStats = async (req, res) => {
+  try {
+    const products = await Product.find();
+    
+    const totalProducts = products.length;
+    const lowStockItems = products.filter(p => p.stock < 10).length;
+    const categories = [...new Set(products.map(p => p.category))].length;
+    const totalValue = products.reduce((sum, p) => sum + (p.price * p.stock), 0);
+    
+    // Recent activity - last 5 products added
+    const recentProducts = await Product.find()
+      .sort({ createdAt: -1 })
+      .limit(5)
+      .select('name category price stock createdAt');
+
+    res.json({
+      totalProducts,
+      lowStockItems,
+      categories,
+      totalValue,
+      recentProducts
+    });
+  } catch (error) {
+    console.error('Get dashboard stats error:', error);
+    res.status(500).json({ message: error.message });
+  }
+};

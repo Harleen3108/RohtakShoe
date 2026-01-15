@@ -1,4 +1,4 @@
-import { API_URL } from './config';
+import { API_URL } from '../config';
 
 const getAuthHeaders = () => {
   const token = localStorage.getItem('token');
@@ -93,6 +93,18 @@ export const reduceStock = async (id, quantity) => {
     return await handleResponse(response);
   } catch (error) {
     console.error('Reduce stock error:', error);
+    throw error;
+  }
+};
+
+export const getDashboardStats = async () => {
+  try {
+    const response = await fetch(`${API_URL}/products/dashboard/stats`, {
+      headers: getAuthHeaders()
+    });
+    return await handleResponse(response);
+  } catch (error) {
+    console.error('Get dashboard stats error:', error);
     throw error;
   }
 };
