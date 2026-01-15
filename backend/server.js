@@ -38,6 +38,17 @@ app.get("/health", (req, res) => {
   });
 });
 
+// API base route for testing
+app.get("/api", (req, res) => {
+  res.json({ 
+    message: "API is working",
+    endpoints: {
+      admin: "/api/admin/login",
+      products: "/api/products"
+    }
+  });
+});
+
 // API Routes
 app.use("/api/admin", adminRoutes);
 app.use("/api/products", productRoutes);
