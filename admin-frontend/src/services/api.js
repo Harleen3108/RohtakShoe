@@ -1,4 +1,4 @@
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+import { API_URL } from './config';
 
 const getAuthHeaders = () => {
   const token = localStorage.getItem('token');
@@ -15,72 +15,84 @@ const getAuthHeadersMultipart = () => {
   };
 };
 
-export const login = async (email, password) => {
-  const response = await fetch(`${API_URL}/admin/login`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ email, password })
-  });
-  
+// Helper function to handle fetch errors
+const handleResponse = async (response) => {
   if (!response.ok) {
-    const error = await response.json();
-    throw new Error(error.message || 'Login failed');
+    let errorMessage = 'Request failed';
+    try {
+      const error = await response.json();
+      errorMessage = error.message || errorMessage;
+    } catch (e) {
+      errorMessage = `${response.status} ${response.statusText}`;
+    }
+    throw new Error(errorMessage);
   }
-  
   return response.json();
+};
+
+export const login = async (email, password) => {
+  try {
+    const response = await fetch(`${API_URL}/admin/login`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, password })
+    });
+    return await handleResponse(response);
+  } catch (error) {
+    console.error('Login error:', error);
+    throw error;
+  }
 };
 
 export const getProducts = async () => {
-  const response = await fetch(`${API_URL}/products`, {
-    headers: getAuthHeaders()
-  });
-  
-  if (!response.ok) {
-    throw new Error('Failed to fetch products');
+  try {
+    const response = await fetch(`${API_URL}/products`, {
+      headers: getAuthHeaders()
+    });
+    return await handleResponse(response);
+  } catch (error) {
+    console.error('Get products error:', error);
+    throw error;
   }
-  
-  return response.json();
 };
 
 export const addProduct = async (formData) => {
-  const response = await fetch(`${API_URL}/products`, {
-    method: 'POST',
-    headers: getAuthHeadersMultipart(),
-    body: formData // FormData object with images
-  });
-  
-  if (!response.ok) {
-    const error = await response.json();
-    throw new Error(error.message || 'Failed to add product');
+  try {
+    const response = await fetch(`${API_URL}/products`, {
+      method: 'POST',
+      headers: getAuthHeadersMultipart(),
+      body: formData
+    });
+    return await handleResponse(response);
+  } catch (error) {
+    console.error('Add product error:', error);
+    throw error;
   }
-  
-  return response.json();
 };
 
 export const deleteProduct = async (id) => {
-  const response = await fetch(`${API_URL}/products/${id}`, {
-    method: 'DELETE',
-    headers: getAuthHeaders()
-  });
-  
-  if (!response.ok) {
-    throw new Error('Failed to delete product');
+  try {
+    const response = await fetch(`${API_URL}/products/${id}`, {
+      method: 'DELETE',
+      headers: getAuthHeaders()
+    });
+    return await handleResponse(response);
+  } catch (error) {
+    console.error('Delete product error:', error);
+    throw error;
   }
-  
-  return response.json();
 };
 
 export const reduceStock = async (id, quantity) => {
-  const response = await fetch(`${API_URL}/products/${id}/reduce-stock`, {
-    method: 'PATCH',
-    headers: getAuthHeaders(),
-    body: JSON.stringify({ quantity })
-  });
-  
-  if (!response.ok) {
-    const error = await response.json();
-    throw new Error(error.message || 'Failed to reduce stock');
+  try {
+    const response = await fetch(`${API_URL}/products/${id}/reduce-stock`, {
+      method: 'PATCH',
+      headers: getAuthHeaders(),
+      body: JSON.stringify({ quantity })
+    });
+    return await handleResponse(response);
+  } catch (error) {
+    console.error('Reduce stock error:', error);
+    throw error;
   }
-  
-  return response.json();
 };
