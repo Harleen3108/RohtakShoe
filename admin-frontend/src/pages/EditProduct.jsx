@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate, Link, useParams } from 'react-router-dom';
 import Navbar from '../components/Navbar';
+import { API_URL } from '../config';
 
 const EditProduct = () => {
   const { id } = useParams();
@@ -34,7 +35,7 @@ const EditProduct = () => {
   const fetchProduct = async () => {
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch(`http://localhost:5000/api/products/${id}`, {
+      const response = await fetch(`${API_URL}/products/${id}`, {
         headers: {
           'Authorization': `Bearer ${token}`
         }
@@ -142,7 +143,7 @@ const EditProduct = () => {
       }
 
       const token = localStorage.getItem('token');
-      const response = await fetch(`http://localhost:5000/api/products/${id}`, {
+      const response = await fetch(`${API_URL}/products/${id}`, {
         method: 'PUT',
         headers: {
           'Authorization': `Bearer ${token}`
