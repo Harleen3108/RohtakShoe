@@ -1,5 +1,8 @@
 // API Configuration
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+const API_URL = import.meta.env.VITE_API_URL || 
+  (import.meta.env.MODE === 'production' 
+    ? 'https://rohtakshoe.onrender.com/api' 
+    : 'http://localhost:5000/api');
 
 // Log configuration in development
 if (import.meta.env.DEV) {
