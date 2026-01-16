@@ -81,30 +81,30 @@ const Dashboard = () => {
     <div className="min-h-screen bg-gray-50">
       <Navbar />
 
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
         {/* Welcome Section */}
-        <div className="mb-8">
-          <h1 className="text-4xl font-bold text-gray-800 mb-2">
+        <div className="mb-6">
+          <h1 className="text-3xl font-bold text-gray-800 mb-1">
             Welcome to RohtakShoe !!!
           </h1>
-          <p className="text-gray-600 text-lg">
+          <p className="text-gray-600">
             Manage your inventory efficiently from your control center
           </p>
         </div>
 
         {/* Stats Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
           {statsCards.map((stat, index) => (
-            <div key={index} className="bg-white rounded-2xl shadow-md hover:shadow-xl transition duration-300 p-6">
-              <div className="flex items-center justify-between mb-4">
-                <div className={`p-3 bg-gradient-to-r ${stat.color} rounded-xl shadow-lg`}>
-                  <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <div key={index} className="bg-white rounded-xl shadow-md hover:shadow-lg transition duration-300 p-4">
+              <div className="flex items-center justify-between mb-3">
+                <div className={`p-2 bg-gradient-to-r ${stat.color} rounded-lg shadow-lg`}>
+                  <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={stat.icon} />
                   </svg>
                 </div>
               </div>
-              <p className="text-gray-500 text-sm font-medium mb-1">{stat.label}</p>
-              <p className="text-3xl font-bold text-gray-800">{stat.value}</p>
+              <p className="text-gray-500 text-xs font-medium mb-1">{stat.label}</p>
+              <p className="text-2xl font-bold text-gray-800">{stat.value}</p>
             </div>
           ))}
         </div>
